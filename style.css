@@ -1,0 +1,47 @@
+body {
+    background-color: lightcyan;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.title {
+    font-size: 3rem;
+    margin: 2rem;
+}
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.btns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 75%;
+    gap: 20px;
+    margin: 20px auto;
+}
+
+.btn {
+    padding: 20px;
+    border none;
+    border-radius: 8px;
+    text-transform: uppercase;
+}
+
+.btn[data-type="rock"] {
+    background-color: #BADA55;
+}
+
+.btn[data-type="paper"] {
+    background-color: #C01100;
+    color: #fff;
+}
+
+.btn[data-type="scissors"] {
+    background-color: blue;
+    color: #fff;
+}
+

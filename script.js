@@ -1,15 +1,14 @@
+const playerScore = document.querySelector('.player-score');
+const robotScore = document.querySelector('.robot-score');
+const btns = document.querySelectorAll('.btn');
+const output = document.querySelector('.output');
+const gameBoard = document.querySelector('.game');
+
+let playerTotalWins = 0;
+let computerTotalWins = 0;
+
 const getComputerChoice = () => {
   const randNum = Math.ceil(Math.random() * 3);
-
-  // This does the same thing as the switch statement below
-  // just with an if/else statement
-  // if (randNum === 1) {
-  //   return "rock";
-  // } else if (randNum === 2) {
-  //   return "paper";
-  // } else {
-  //   return "scissors";
-  // }
 
   switch (randNum) {
     case 1:
@@ -38,6 +37,9 @@ const getPlayerChoice = () => {
 
   return playerChoice;
 };
+const updateOutput = (msg) => {
+  output.innerText = msg; 
+};
 
 const playRound = (playerSelection, computerSelection) => {
   playerSelection = playerSelection.toLowerCase();
@@ -52,61 +54,44 @@ const playRound = (playerSelection, computerSelection) => {
     (playerSelection === "paper" && computerSelection === "scissors");
 
   if (playerWins) {
-    console.log(
+    updateOutput(
       `You win this round! ${playerSelection} beats ${computerSelection}.`
     );
     return "Player wins";
   } else if (computerWins) {
-    console.log(
+    updateOutput(
       `You lose this round! ${computerSelection} beats ${playerSelection}.`
     );
     return "Computer wins";
   } else {
-    console.log(
+    updateOutput(
       `${playerSelection} and ${computerSelection}. It's a tie this round!`
     );
     return "It's a tie";
   }
 };
 
-const game = () => {
-  let playerTotalWins = 0;
-  let computerTotalWins = 0;
-  let ties = 0;
+const game = (evt) => {
 
-  for (let round = 1; round <= 5; round++) {
     let computerChoice = getComputerChoice();
-    let playerChoice = getPlayerChoice();
-    // If player hits cancel
-    if (!playerChoice) {
-      console.log("Game canceled");
-      return;
-    }
+    let playerChoice = evt.target.dataset.type;
 
     let outcome = playRound(playerChoice, computerChoice);
     if (outcome === "Player wins") {
       playerTotalWins++;
+      playerScore.innerText= playerTotalWins;
     } else if (outcome === "Computer wins") {
       computerTotalWins++;
-    } else {
-      ties++;
-    }
-  }
-
-  // The above for loop can also be written as a while loop:
-  // let round = 1;
-  // while (round <= 5) {
-  //  ...code to execute
-  //  round ++
-  //}
-
-  if (playerTotalWins > computerTotalWins) {
-    console.log("You win the game! Refresh to play again!");
-  } else if (computerTotalWins > playerTotalWins) {
-    console.log("You lose the game! Refresh to play again!");
-  } else {
-    console.log("The game is a tie! Refresh to play again!");
-  }
+      robotScore.innerText = computerTotalWins;
+    } 
+    
+  if (playerTotalWins === 5) {
+    gameBoard.innerText = 'You win the game! Refresh to play again!';
+  } else if (computerTotalWins === 5) {
+    gameBoard.innerText = 'You lose the game! Refresh to play again!';
+  } 
 };
 
-game();
+btns.forEach((btn)=> {
+  btn.addEventListener('click', game)
+})
